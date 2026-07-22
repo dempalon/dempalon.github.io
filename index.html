@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S. H. Stephens</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #222;
+      --accent: #0055bb;
+      --border: #e0e0e0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #e0e0e0;
+        --accent: #66b2ff;
+        --border: #333;
+      }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
+    .subtitle { color: #777; margin-top: 0; font-size: 1rem; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .project-card {
+      border: 1px solid var(--border);
+      padding: 1.2rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+    .project-card h3 { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>S. H. Stephens</h1>
+    <p class="subtitle">Mathematics Student at Imperial College London</p>
+  </header>
+
+  <section>
+    <p>
+      I am an undergraduate mathematics student. I am interested in the philosophy of life.
+    </p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Projects & Writing</h2>
+    
+    <div class="project-card">
+      <h3>Multi-Dimensional Cluster Analysis on UK Election Results</h3>
+      <p>
+        A first-year statistical research project analyzing voting patterns across UK constituency datasets using multivariate clustering techniques in R.
+      </p>
+      <!-- You can link a PDF, R Markdown HTML output, or GitHub code here -->
+      <a href="#">Read the project write-up &rarr;</a>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Contact</h2>
+    <p>
+      Email: <a href="mailto:your.email@domain.com">your.email@domain.com</a><br>
+      GitHub: <a href="https://github.com/yourgithubusername">github.com/yourgithubusername</a>
+    </p>
+  </section>
+
+</body>
+</html>
