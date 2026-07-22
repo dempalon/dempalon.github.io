@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHStephens</title>
+  <title>Scott Hal Stephens</title>
   <style>
     :root {
       --bg: #fafafa;
       --text: #222;
       --accent: #0055bb;
       --border: #e0e0e0;
+      --subtext: #666;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -17,6 +18,7 @@
         --text: #e0e0e0;
         --accent: #66b2ff;
         --border: #333;
+        --subtext: #aaa;
       }
     }
     body {
@@ -25,21 +27,34 @@
       color: var(--text);
       max-width: 680px;
       margin: 0 auto;
-      padding: 2rem 1rem;
-      line-height: 1.6;
+      padding: 2.5rem 1rem;
+      line-height: 1.65;
     }
-    h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
-    .subtitle { color: #777; margin-top: 0; font-size: 1rem; }
+    h1 { font-size: 1.9rem; margin-bottom: 0.2rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .subtitle { color: var(--subtext); margin-top: 0; font-size: 1.05rem; }
     hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .project-card {
+    .section-desc { color: var(--subtext); font-size: 0.95rem; margin-bottom: 1.2rem; margin-top: -0.2rem; }
+    .card {
       border: 1px solid var(--border);
-      padding: 1.2rem;
+      padding: 1.25rem;
       border-radius: 6px;
       margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.01);
     }
-    .project-card h3 { margin-top: 0; }
+    .card h3 { margin-top: 0; margin-bottom: 0.4rem; font-size: 1.1rem; }
+    .card p { margin-top: 0; margin-bottom: 0.8rem; font-size: 0.95rem; color: var(--text); }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--subtext);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -51,22 +66,42 @@
 
   <section>
     <p>
-      I am an undergraduate mathematics student. I am interested in the philosophy of life.
+      I am an undergraduate mathematics student exploring the intersection of quantitative analysis, political data, and philosophy. 
+    </p>
+    <p>
+      My work spans applied statistical modeling—such as cluster analysis on electoral constituency datasets—alongside writing on decision-making, time, and how we navigate modern systems.
     </p>
   </section>
 
   <hr>
 
   <section>
-    <h2>Projects & Writing</h2>
+    <h2>Writing & Philosophy</h2>
+    <p class="section-desc">Essays and notes on decision theory, attention, and living thoughtfully.</p>
     
-    <div class="project-card">
+    <div class="card">
+      <span class="tag">Essay</span>
+      <h3>Notes on Time, Systems & Choice</h3>
+      <p>
+        An inquiry into how we allocate focus under uncertainty, balance structure with presence, and apply analytical thinking to everyday life.
+      </p>
+      <a href="#">Read essay &rarr;</a>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Quantitative & Political Projects</h2>
+    <p class="section-desc">Statistical research, data modeling, and empirical write-ups.</p>
+
+    <div class="card">
+      <span class="tag">Statistics & Politics</span>
       <h3>Multi-Dimensional Cluster Analysis on UK Election Results</h3>
       <p>
-        A first-year statistical research project analyzing voting patterns across UK constituency datasets using multivariate clustering techniques in R.
+        A statistical research project applying multivariate clustering techniques in R to examine voter behavior and demographic patterns across UK constituency datasets.
       </p>
-      <!-- You can link a PDF, R Markdown HTML output, or GitHub code here -->
-      <a href="#">Read the project write-up &rarr;</a>
+      <a href="#">Read project write-up &rarr;</a>
     </div>
   </section>
 
