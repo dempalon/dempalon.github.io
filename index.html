@@ -29,30 +29,31 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 2.5rem 1rem;
+      margin: 0;
+      padding: 0;
       line-height: 1.65;
     }
 
-    /* Top Left Header Alignment */
-    header {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .profile-img {
-      width: 52px;
-      height: 52px;
+    /* Pinned Logo in the absolute top-left corner of the screen */
+    .top-logo {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      width: 42px;
+      height: 42px;
       object-fit: cover;
       border-radius: 50%;
       border: 1px solid var(--border);
-      flex-shrink: 0;
     }
 
-    h1 { font-size: 1.7rem; margin: 0 0 0.1rem 0; letter-spacing: -0.02em; }
+    /* Centered Text Column */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 4rem 1rem 2.5rem; /* Top padding leaves space for the logo */
+    }
+
+    h1 { font-size: 1.8rem; margin: 0 0 0.2rem 0; letter-spacing: -0.02em; }
     h2 { font-size: 1.3rem; margin-bottom: 0.4rem; }
     .subtitle { color: var(--subtext); margin: 0; font-size: 1rem; }
     
@@ -79,68 +80,82 @@
       font-weight: 600;
       margin-bottom: 0.4rem;
     }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .top-logo {
+        position: static;
+        display: block;
+        margin: 1.5rem auto 0;
+      }
+      .container {
+        padding-top: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <img src="brandlogo.png" alt="Scott Hal Stephens" class="profile-img">
-    <div>
+  <!-- Logo pinned outside the main text box -->
+  <img src="brandlogo.png" alt="Scott Hal Stephens" class="top-logo">
+
+  <div class="container">
+    <header>
       <h1>Scott Hal Stephens</h1>
       <p class="subtitle">Mathematics Student at Imperial College London</p>
-    </div>
-  </header>
+    </header>
 
-  <section>
-    <p>
-      I am an undergraduate mathematics student exploring the intersection of quantitative analysis, political data, and philosophy. 
-    </p>
-    <p>
-      My work spans applied statistical modeling—such as cluster analysis on electoral constituency datasets—alongside writing on decision-making, time, and how we navigate modern systems.
-    </p>
-  </section>
-
-  <hr>
-
-  <section>
-    <h2>Writing & Philosophy</h2>
-    <p class="section-desc">Essays and notes on decision theory, attention, and living thoughtfully.</p>
-    
-    <div class="card">
-      <span class="tag">Essay</span>
-      <h3>Notes on Time, Systems & Choice</h3>
+    <section style="margin-top: 1.5rem;">
       <p>
-        An inquiry into how we allocate focus under uncertainty, balance structure with presence, and apply analytical thinking to everyday life.
+        I am an undergraduate mathematics student exploring the intersection of quantitative analysis, political data, and philosophy. 
       </p>
-      <a href="#">Read essay &rarr;</a>
-    </div>
-  </section>
-
-  <hr>
-
-  <section>
-    <h2>Quantitative & Political Projects</h2>
-    <p class="section-desc">Statistical research, data modeling, and empirical write-ups.</p>
-
-    <div class="card">
-      <span class="tag">Statistics & Politics</span>
-      <h3>Multi-Dimensional Cluster Analysis on UK Election Results</h3>
       <p>
-        A statistical research project applying multivariate clustering techniques in R to examine voter behavior and demographic patterns across UK constituency datasets.
+        My work spans applied statistical modeling—such as cluster analysis on electoral constituency datasets—alongside writing on decision-making, time, and how we navigate modern systems.
       </p>
-      <a href="#">Read project write-up &rarr;</a>
-    </div>
-  </section>
+    </section>
 
-  <hr>
+    <hr>
 
-  <section>
-    <h2>Contact</h2>
-    <p>
-      Email: <a href="mailto:scotthalstephens@gmail.com">scotthalstephens@gmail.com</a><br>
-      GitHub: <a href="https://github.com/dempalon">github.com/dempalon</a>
-    </p>
-  </section>
+    <section>
+      <h2>Writing & Philosophy</h2>
+      <p class="section-desc">Essays and notes on decision theory, attention, and living thoughtfully.</p>
+      
+      <div class="card">
+        <span class="tag">Essay</span>
+        <h3>Notes on Time, Systems & Choice</h3>
+        <p>
+          An inquiry into how we allocate focus under uncertainty, balance structure with presence, and apply analytical thinking to everyday life.
+        </p>
+        <a href="#">Read essay &rarr;</a>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Quantitative & Political Projects</h2>
+      <p class="section-desc">Statistical research, data modeling, and empirical write-ups.</p>
+
+      <div class="card">
+        <span class="tag">Statistics & Politics</span>
+        <h3>Multi-Dimensional Cluster Analysis on UK Election Results</h3>
+        <p>
+          A statistical research project applying multivariate clustering techniques in R to examine voter behavior and demographic patterns across UK constituency datasets.
+        </p>
+        <a href="#">Read project write-up &rarr;</a>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Email: <a href="mailto:scotthalstephens@gmail.com">scotthalstephens@gmail.com</a><br>
+        GitHub: <a href="https://github.com/dempalon">github.com/dempalon</a>
+      </p>
+    </section>
+  </div>
 
 </body>
 </html>
