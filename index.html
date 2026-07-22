@@ -55,6 +55,24 @@
       font-weight: 600;
       margin-bottom: 0.4rem;
     }
+
+    /* ... existing roots and media queries ... */
+
+  /* ADD THIS BLOCK FOR YOUR IMAGE STYLING */
+  .profile-img {
+    display: block;        /* Centers the image by making it its own block */
+    margin: 0 auto 1.5rem; /* Auto-centers horizontally; adds space below the image */
+    
+    width: 150px;         /* Specific size (adjust this number if needed) */
+    height: 150px;        /* Keeping width and height equal makes it a square... */
+    object-fit: cover;    /* ...this line ensures the image fills the square without stretching */
+    
+    border-radius: 50%;   /* Gives it the clean circular crop (common for profile pics) */
+    
+    border: 1px solid var(--border); /* Adds a subtle ring, defining the edges */
+  }
+
+  /* ... rest of your body { styles ... */
   </style>
 </head>
 <body>
