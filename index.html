@@ -11,25 +11,37 @@
   <link rel="icon" type="image/png" href="brandlogo.png">
 
   <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     html {
       scroll-behavior: smooth;
     }
 
     :root {
       --bg: #fafafa;
-      --text: #222;
+      --text: #171717;
+      --subtext: #666666;
       --accent: #0055bb;
-      --border: #e0e0e0;
-      --subtext: #666;
+      --accent-hover: #003e8a;
+      --border: #e5e5e5;
+      --pill-bg: #f4f4f5;
+      --pill-hover: #eaeaea;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #121212;
-        --text: #e0e0e0;
-        --accent: #66b2ff;
-        --border: #333;
-        --subtext: #aaa;
+        --bg: #0f1013;
+        --text: #f0f0f2;
+        --subtext: #9da3af;
+        --accent: #58a6ff;
+        --accent-hover: #79b8ff;
+        --border: #22262e;
+        --pill-bg: #181b22;
+        --pill-hover: #222733;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -40,174 +52,212 @@
       margin: 0;
       padding: 0;
       line-height: 1.65;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Pinned Logo in fixed top-left corner */
-    .top-logo {
-      position: fixed;
-      top: 1.5rem;
-      left: 1.5rem;
-      width: 42px;
-      height: 42px;
-      object-fit: cover;
+    /* Centered Container with vertical balance */
+    .container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 2.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content {
+      flex: 1;
+    }
+
+    /* Focal Point: Geometric Emblem in the Header */
+    .emblem-wrapper {
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    .emblem {
+      width: 80px;
+      height: 80px;
+      display: block;
       border-radius: 50%;
       border: 1px solid var(--border);
-      z-index: 100;
+      box-shadow: var(--shadow);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      cursor: default;
     }
 
-    /* Centered Container Layout */
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 4rem 1rem 2.5rem;
+    .emblem:hover {
+      transform: rotate(20deg) scale(1.04);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .emblem:hover {
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    /* Typography */
+    header {
+      margin-bottom: 2.2rem;
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin: 0 0 0.2rem 0;
-      letter-spacing: -0.02em;
-    }
-
-    h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.2rem;
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
     }
 
     .subtitle {
       color: var(--subtext);
+      font-size: 1.05rem;
       margin: 0;
-      font-size: 1rem;
+      letter-spacing: -0.01em;
+      font-weight: 400;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .section-desc {
-      color: var(--subtext);
-      font-size: 0.95rem;
-      margin-bottom: 0.8rem;
+    .statement {
       margin-top: 0;
+      margin-bottom: 2.5rem;
     }
 
-    section {
-      margin-top: 1.8rem;
-    }
-
-    /* Simplistic Card Layout */
-    .simple-card {
-      display: block;
-      border: 1px solid var(--border);
-      padding: 1.25rem 1.4rem;
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.01);
+    .statement p {
+      font-size: 1.15rem;
+      line-height: 1.7;
       color: var(--text);
-      text-decoration: none;
-      transition: border-color 0.2s ease, background-color 0.2s ease;
-    }
-
-    .simple-card:hover {
-      border-color: var(--accent);
-      background: rgba(0, 0, 0, 0.02);
-      text-decoration: none;
-    }
-
-    .simple-card h2 {
-      margin: 0 0 0.2rem 0;
-      font-size: 1.3rem;
-      color: var(--text);
-    }
-
-    .simple-card .card-subtitle {
-      font-size: 0.95rem;
-      color: var(--subtext);
-      margin: 0 0 0.5rem 0;
-    }
-
-    .simple-card p {
       margin: 0;
-      font-size: 0.95rem;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      margin-top: 1rem;
+    }
+
+    .contact-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--subtext);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1rem;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       color: var(--text);
-    }
-
-    .simple-card .card-action {
-      display: inline-block;
-      margin-top: 0.6rem;
-      font-size: 0.9rem;
+      text-decoration: none;
+      font-size: 0.95rem;
       font-weight: 500;
-      color: var(--accent);
+      transition: all 0.2s ease;
     }
 
+    .contact-pill:hover {
+      border-color: var(--accent);
+      background: var(--pill-hover);
+      color: var(--accent);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .contact-pill svg {
+      width: 17px;
+      height: 17px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .contact-pill:hover svg {
+      opacity: 1;
+    }
+
+    /* Footer */
     footer {
-      margin-top: 3rem;
+      margin-top: 4rem;
       padding-top: 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       color: var(--subtext);
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
 
     footer a {
       color: var(--subtext);
       text-decoration: none;
+      transition: color 0.15s ease;
     }
 
     footer a:hover {
       color: var(--accent);
-      text-decoration: underline;
     }
 
-    /* Mobile adjustments */
+    /* Mobile fine-tuning */
     @media (max-width: 600px) {
-      .top-logo {
-        position: static;
-        display: block;
-        margin: 1.5rem auto 0;
-      }
-
       .container {
-        padding-top: 1rem;
+        padding-top: 3.5rem;
+      }
+      
+      .emblem {
+        width: 72px;
+        height: 72px;
       }
     }
   </style>
 </head>
 
-<body id="top">
-
-  <!-- Logo pinned outside main text box -->
-  <img src="brandlogo.png" alt="Scott Hal Stephens" class="top-logo" width="42" height="42">
+<body>
 
   <div class="container">
-    <header>
-      <h1>Scott Hal Stephens</h1>
-      <p class="subtitle">Mathematics Student at Imperial College London</p>
-    </header>
+    <div class="main-content">
+      
+      <!-- Focal Anchor: Geometric Emblem -->
+      <div class="emblem-wrapper">
+        <img src="brandlogo.png" alt="Geometric Emblem" class="emblem" width="80" height="80">
+      </div>
 
-    <section style="margin-top: 1.5rem;">
-      <p>
-        I am interested in the philosophy of life.
-      </p>
-    </section>
+      <header>
+        <h1>Scott Hal Stephens</h1>
+        <p class="subtitle">Mathematics Student at Imperial College London</p>
+      </header>
 
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Email: <a href="mailto:scott@shstephens.com">scott@shstephens.com</a>
-      </p>
-    </section>
+      <div class="statement">
+        <p>I am interested in the philosophy of life.</p>
+      </div>
+
+      <div class="contact-section">
+        <span class="contact-label">Get in touch</span>
+        <a href="mailto:scott@shstephens.com" class="contact-pill" id="contact-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          <span>scott@shstephens.com</span>
+        </a>
+      </div>
+
+    </div>
 
     <footer>
-      <span>&copy; 2026 Scott Hal Stephens. All rights reserved.</span>
-      <a href="#top">Back to top &uarr;</a>
+      <span>&copy; 2026 Scott Hal Stephens</span>
     </footer>
   </div>
 
