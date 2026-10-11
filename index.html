@@ -66,7 +66,8 @@
        before it, so the name still selects and copies as text. */
     .ch {
       display: inline-block;
-      width: 0.52em;
+      width: 0.5em;
+      letter-spacing: 0;
       color: transparent;
       text-shadow: none;
     }
@@ -74,7 +75,7 @@
     .o {
       display: inline-block;
       width: 0.48em; height: 0.48em;
-      margin: 0 0.015em 0 -0.5em;
+      margin: 0 0.01em 0 -0.49em;
       position: relative;
       vertical-align: -0.015em;
       border-radius: 50%;
@@ -104,7 +105,16 @@
       opacity: 0; color: var(--light); white-space: nowrap;
     }
     .lines .thought i { font-style: italic; }
-    .lines .thought small { font-size: 0.75em; opacity: 0.75; margin-left: 0.5em; font-style: normal; }
+    .lines .thought small { font-size: 0.75em; opacity: 0.75; margin-left: 0.25em; font-style: normal; }
+    /* Whichever line is faded out is also hidden, so it can't be selected */
+    .lines .usual, .lines.thinking .thought {
+      visibility: visible;
+      transition: opacity 1s ease, visibility 0s linear 0s;
+    }
+    .lines .thought, .lines.thinking .usual {
+      visibility: hidden;
+      transition: opacity 1s ease, visibility 0s linear 1s;
+    }
     .lines.thinking .usual { opacity: 0; }
     .lines.thinking .thought { opacity: 1; }
     .reach {
@@ -142,7 +152,7 @@
     <div class="side">
       <p class="lines" aria-live="polite">
         <span class="usual">Mathematics, Imperial College London</span>
-        <span class="thought"><i></i><small></small></span>
+        <span class="thought"><i></i> <small></small></span>
       </p>
       <p class="reach"><a href="mailto:scott@shstephens.com">scott@shstephens.com</a></p>
     </div>
