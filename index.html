@@ -28,7 +28,7 @@
       overflow: hidden;
     }
 
-    /* One edge-to-edge photograph, chosen to match the screen's orientation */
+    /* One edge-to-edge photograph of the hills */
     .scenery div {
       position: absolute; inset: 0;
       background-size: cover;
@@ -70,10 +70,9 @@
       vertical-align: -0.015em;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 0 0 0.012em rgba(244, 245, 240, 0.55);
+      filter: drop-shadow(0 1px 12px rgba(0, 0, 0, 0.25));
       transition: transform 1.8s cubic-bezier(.16, 1, .3, 1);
     }
-    .o.turned { transform: rotate(360deg); }
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     .side { text-align: right; padding-bottom: 0.6rem; }
@@ -89,7 +88,8 @@
       position: absolute; right: 0; bottom: 0;
       opacity: 0; color: var(--light); white-space: nowrap;
     }
-    .lines .thought small { font-size: 0.75em; opacity: 0.75; margin-left: 0.4em; }
+    .lines .thought i { font-style: italic; }
+    .lines .thought small { font-size: 0.75em; opacity: 0.75; margin-left: 0.5em; font-style: normal; }
     .lines.thinking .usual { opacity: 0; }
     .lines.thinking .thought { opacity: 1; }
     .reach {
@@ -123,11 +123,11 @@
   <div class="scenery" aria-hidden="true"></div>
 
   <main>
-    <h1><span class="sr">Scott Hal Stephens</span><span aria-hidden="true">Sc<img class="o" src="brandlogo.png" alt="" title="">tt Hal<br>Stephens</span></h1>
+    <h1><span class="sr">Scott Hal Stephens</span><span aria-hidden="true">Sc<img class="o" src="emblem-o.png" alt="">tt Hal<br>Stephens</span></h1>
     <div class="side">
       <p class="lines" aria-live="polite">
         <span class="usual">Mathematics, Imperial College London</span>
-        <span class="thought">This is it.<small>after Alan Watts</small></span>
+        <span class="thought"><i>This Is It</i><small>Alan Watts</small></span>
       </p>
       <p class="reach"><a href="mailto:scott@shstephens.com">scott@shstephens.com</a></p>
     </div>
@@ -135,42 +135,31 @@
 
   <script>
     (function () {
-      // Landscape photos for landscape screens, portrait photos for portrait screens.
-      // One photo per visit; if the screen is rotated, switch to one that fits.
-      var sets = {
-        landscape: ["hills", "pines", "bracken", "clouds"],
-        portrait: ["london-plane-trees", "forest-track", "dog-walk"]
-      };
       var size = (Math.max(screen.width, screen.height) * (window.devicePixelRatio || 1) > 1800) ? "lg" : "sm";
-      var stage = document.querySelector(".scenery");
       var layer = document.createElement("div");
-      stage.appendChild(layer);
-      var portraitQuery = window.matchMedia("(orientation: portrait)");
-      var chosen = {};
-      function show() {
-        var shape = portraitQuery.matches ? "portrait" : "landscape";
-        if (!chosen[shape]) {
-          var list = sets[shape];
-          chosen[shape] = list[Math.floor(Math.random() * list.length)];
-        }
-        var src = "images/" + chosen[shape] + "-" + size + ".jpg";
-        var img = new Image();
-        img.onload = function () {
-          layer.classList.remove("on");
-          layer.style.backgroundImage = "url(" + src + ")";
-          requestAnimationFrame(function () { layer.classList.add("on"); });
-        };
-        img.src = src;
-      }
-      show();
-      if (portraitQuery.addEventListener) portraitQuery.addEventListener("change", show);
-      else portraitQuery.addListener(show);
+      document.querySelector(".scenery").appendChild(layer);
+      var src = "images/hills-" + size + ".jpg", img = new Image();
+      img.onload = function () {
+        layer.style.backgroundImage = "url(" + src + ")";
+        requestAnimationFrame(function () { layer.classList.add("on"); });
+      };
+      img.src = src;
 
-      var o = document.querySelector(".o"), lines = document.querySelector(".lines");
+      // Titles of Alan Watts's books, one per click
+      var titles = ["This Is It", "The Wisdom of Insecurity", "Become What You Are", "Still the Mind",
+                    "Does It Matter?", "The Watercourse Way", "Cloud-hidden, Whereabouts Unknown", "In My Own Way"];
+      var t = 0, turns = 0;
+      var o = document.querySelector(".o"), lines = document.querySelector(".lines"),
+          title = lines.querySelector(".thought i");
       o.addEventListener("click", function () {
-        var on = !lines.classList.contains("thinking");
-        lines.classList.toggle("thinking", on);
-        o.classList.toggle("turned", on);
+        var showing = lines.classList.contains("thinking");
+        if (!showing) {
+          title.textContent = titles[t];
+          t = (t + 1) % titles.length;
+        }
+        lines.classList.toggle("thinking", !showing);
+        turns += 1;
+        o.style.transform = "rotate(" + (turns * 360) + "deg)";
       });
     })();
   </script>
