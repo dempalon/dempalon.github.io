@@ -71,8 +71,8 @@
       cursor: pointer;
       transition: color 0.9s ease 0.15s, text-shadow 0.9s ease 0.15s;
     }
-    h1.built .ch { color: transparent; text-shadow: none; }
-    h1.built .ch::selection { color: transparent; background: Highlight; }
+    h1.lettered .ch { color: transparent; text-shadow: none; }
+    h1.lettered .ch::selection { color: transparent; background: Highlight; }
     .o {
       display: inline-block;
       width: 0.48em; height: 0.48em;
@@ -196,7 +196,6 @@
       var o = document.querySelector(".o"), lines = document.querySelector(".lines"),
           title = lines.querySelector(".thought i"), author = lines.querySelector(".thought small");
       var shapes = Array.prototype.slice.call(o.querySelectorAll("polygon"));
-      var turns = shapes.map(function () { return 0; });
       var ch = document.querySelector(".ch"), h1 = document.querySelector("h1");
       var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var built = false;
@@ -211,51 +210,59 @@
         lines.classList.toggle("thinking", !showing);
       }
 
-      // First click: the letter fades while the polygons draw themselves in the
-      // order of the construction, triangle first, ending on the 12-gon.
-      function build() {
-        built = true;
-        if (!still) shapes.forEach(function (p) {
+      var STEP = 90, DRAW = 650, total = shapes.length * STEP + DRAW;
+      function prime(offsetFull) {
+        shapes.forEach(function (p) {
           var len = p.getTotalLength ? p.getTotalLength() : 400;
           p.style.transition = "none";
           p.style.strokeDasharray = len;
-          p.style.strokeDashoffset = len;
+          p.style.strokeDashoffset = offsetFull ? len : 0;
+          p.dataset.len = len;
         });
-        h1.classList.add("built");
-        if (still) return;
         o.getBoundingClientRect();
-        shapes.forEach(function (p, k) {
-          p.style.transition = "stroke-dashoffset 0.65s cubic-bezier(.45, 0, .25, 1) " + (k * 95) + "ms";
-          p.style.strokeDashoffset = 0;
+      }
+      function clean() {
+        shapes.forEach(function (p) {
+          p.style.transition = p.style.strokeDasharray = p.style.strokeDashoffset = "";
         });
-        setTimeout(function () {
-          shapes.forEach(function (p) {
-            p.style.transition = p.style.strokeDasharray = p.style.strokeDashoffset = "";
-          });
-        }, shapes.length * 95 + 750);
       }
 
-      // Later clicks: each polygon turns about its own centre by exactly one of
-      // its own sides, triangle first, so the emblem settles back into its form.
-      function spin() {
+      // Click: the letter fades while the polygons draw themselves in the order
+      // of the construction, triangle first, ending on the 12-gon.
+      function build() {
+        built = true;
+        if (still) { h1.classList.add("built", "lettered"); return; }
+        prime(true);
+        h1.classList.add("built", "lettered");
         shapes.forEach(function (p, k) {
-          var n = +p.getAttribute("data-n"), c = p.getAttribute("data-c").split(" ");
-          p.style.transformOrigin = c[0] + "px " + c[1] + "px";
-          turns[k] += 360 / n;
-          p.style.transitionDelay = (k * 28) + "ms";
-          p.style.transform = "rotate(" + turns[k] + "deg)";
+          p.style.transition = "stroke-dashoffset " + DRAW + "ms cubic-bezier(.45, 0, .25, 1) " + (k * STEP) + "ms";
+          p.style.strokeDashoffset = 0;
         });
+        setTimeout(clean, total + 100);
+      }
+
+      // Click again: the construction undoes itself, 12-gon first, and the
+      // letter comes back as the last polygons go.
+      function unbuild() {
+        built = false;
+        if (still) { h1.classList.remove("built", "lettered"); return; }
+        prime(false);
+        var n = shapes.length;
+        shapes.forEach(function (p, k) {
+          p.style.transition = "stroke-dashoffset " + DRAW + "ms cubic-bezier(.45, 0, .25, 1) " + ((n - 1 - k) * STEP) + "ms";
+          p.style.strokeDashoffset = p.dataset.len;
+        });
+        setTimeout(function () { h1.classList.remove("lettered"); }, 200);
+        setTimeout(function () { h1.classList.remove("built"); clean(); }, total + 100);
       }
 
       var busy = false;
       function press() {
         if (busy) return;
-        if (!built) {
-          build();
-          busy = !still;
-          setTimeout(function () { busy = false; }, still ? 0 : shapes.length * 95 + 750);
-        } else spin();
+        busy = !still;
+        if (built) unbuild(); else build();
         toggleLine();
+        setTimeout(function () { busy = false; }, still ? 0 : total + 150);
       }
       o.addEventListener("click", press);
       ch.addEventListener("click", press);
