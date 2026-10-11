@@ -62,16 +62,17 @@
       letter-spacing: -0.03em;
       text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
     }
-    /* The emblem stands in for the o in Scott. An invisible real "o" sits just
-       before it, so the name still selects and copies as text. */
+    /* The o in Scott is a real letter until it is clicked; then it gives way to
+       the emblem, which sits exactly over it, so the name still selects as text. */
     .ch {
       display: inline-block;
       width: 0.5em;
       letter-spacing: 0;
-      color: transparent;
-      text-shadow: none;
+      cursor: pointer;
+      transition: color 0.9s ease 0.15s, text-shadow 0.9s ease 0.15s;
     }
-    .ch::selection { color: transparent; background: Highlight; }
+    h1.built .ch { color: transparent; text-shadow: none; }
+    h1.built .ch::selection { color: transparent; background: Highlight; }
     .o {
       display: inline-block;
       width: 0.48em; height: 0.48em;
@@ -85,10 +86,12 @@
       filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.3));
     }
     .o polygon {
+      opacity: 0;
       transform-box: view-box;
       transform-origin: 0px 0px;
       transition: transform 1.5s cubic-bezier(.65, 0, .35, 1);
     }
+    h1.built .o polygon { opacity: 1; }
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     .side { text-align: right; padding-bottom: 0.6rem; }
@@ -194,16 +197,11 @@
           title = lines.querySelector(".thought i"), author = lines.querySelector(".thought small");
       var shapes = Array.prototype.slice.call(o.querySelectorAll("polygon"));
       var turns = shapes.map(function () { return 0; });
-      o.addEventListener("click", function () {
-        // Each polygon turns about its own centre by exactly one of its own sides,
-        // triangle first, so the emblem settles back into its original form.
-        shapes.forEach(function (p, k) {
-          var n = +p.getAttribute("data-n"), c = p.getAttribute("data-c").split(" ");
-          p.style.transformOrigin = c[0] + "px " + c[1] + "px";
-          turns[k] += 360 / n;
-          p.style.transitionDelay = (k * 28) + "ms";
-          p.style.transform = "rotate(" + turns[k] + "deg)";
-        });
+      var ch = document.querySelector(".ch"), h1 = document.querySelector("h1");
+      var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var built = false;
+
+      function toggleLine() {
         var showing = lines.classList.contains("thinking");
         if (!showing) {
           title.textContent = books[b][0];
@@ -211,7 +209,56 @@
           b = (b + 1) % books.length;
         }
         lines.classList.toggle("thinking", !showing);
-      });
+      }
+
+      // First click: the letter fades while the polygons draw themselves in the
+      // order of the construction, triangle first, ending on the 12-gon.
+      function build() {
+        built = true;
+        if (!still) shapes.forEach(function (p) {
+          var len = p.getTotalLength ? p.getTotalLength() : 400;
+          p.style.transition = "none";
+          p.style.strokeDasharray = len;
+          p.style.strokeDashoffset = len;
+        });
+        h1.classList.add("built");
+        if (still) return;
+        o.getBoundingClientRect();
+        shapes.forEach(function (p, k) {
+          p.style.transition = "stroke-dashoffset 0.65s cubic-bezier(.45, 0, .25, 1) " + (k * 95) + "ms";
+          p.style.strokeDashoffset = 0;
+        });
+        setTimeout(function () {
+          shapes.forEach(function (p) {
+            p.style.transition = p.style.strokeDasharray = p.style.strokeDashoffset = "";
+          });
+        }, shapes.length * 95 + 750);
+      }
+
+      // Later clicks: each polygon turns about its own centre by exactly one of
+      // its own sides, triangle first, so the emblem settles back into its form.
+      function spin() {
+        shapes.forEach(function (p, k) {
+          var n = +p.getAttribute("data-n"), c = p.getAttribute("data-c").split(" ");
+          p.style.transformOrigin = c[0] + "px " + c[1] + "px";
+          turns[k] += 360 / n;
+          p.style.transitionDelay = (k * 28) + "ms";
+          p.style.transform = "rotate(" + turns[k] + "deg)";
+        });
+      }
+
+      var busy = false;
+      function press() {
+        if (busy) return;
+        if (!built) {
+          build();
+          busy = !still;
+          setTimeout(function () { busy = false; }, still ? 0 : shapes.length * 95 + 750);
+        } else spin();
+        toggleLine();
+      }
+      o.addEventListener("click", press);
+      ch.addEventListener("click", press);
     })();
   </script>
 </body>
