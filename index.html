@@ -1,266 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scott Hal Stephens</title>
-  <meta name="description" content="Scott Hal Stephens — Mathematics Student at Imperial College London.">
-
-  <!-- Browser Tab Icon (Favicon) -->
+  <meta name="description" content="Scott Hal Stephens, mathematics student at Imperial College London.">
+  <meta name="theme-color" content="#1b211d">
   <link rel="icon" type="image/png" href="brandlogo.png">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     :root {
-      --bg: #fafafa;
-      --text: #171717;
-      --subtext: #666666;
-      --accent: #0055bb;
-      --accent-hover: #003e8a;
-      --border: #e5e5e5;
-      --pill-bg: #f4f4f5;
-      --pill-hover: #eaeaea;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --night: #1b211d;
+      --light: #f4f5f0;
+      --dim: rgba(244, 245, 240, 0.78);
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f1013;
-        --text: #f0f0f2;
-        --subtext: #9da3af;
-        --accent: #58a6ff;
-        --accent-hover: #79b8ff;
-        --border: #22262e;
-        --pill-bg: #181b22;
-        --pill-hover: #222733;
-        --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-      }
-    }
-
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
       margin: 0;
-      padding: 0;
-      line-height: 1.65;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      min-height: 100svh;
+      background: var(--night);
+      color: var(--light);
+      font-family: "Newsreader", Georgia, "Times New Roman", serif;
+      font-optical-sizing: auto;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
     }
 
-    /* Centered Container with vertical balance */
-    .container {
-      max-width: 600px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 5rem 1.5rem 2.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    /* One edge-to-edge photograph, chosen to match the screen's orientation */
+    .scenery div {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .scenery div.on { opacity: 1; }
+    /* A soft shade from the lower left so the words stay readable on any photo */
+    .scenery::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(17, 22, 19, 0.78) 0%, rgba(17, 22, 19, 0.25) 42%, rgba(17, 22, 19, 0.05) 70%),
+        linear-gradient(to right, rgba(17, 22, 19, 0.35), rgba(17, 22, 19, 0) 60%),
+        radial-gradient(circle at 100% 0%, rgba(17, 22, 19, 0.55), rgba(17, 22, 19, 0) 22rem);
     }
 
-    .main-content {
-      flex: 1;
+    main {
+      position: relative; z-index: 1;
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: clamp(1.5rem, 5vw, 4.5rem);
     }
-
-    /* Focal Point: Geometric Emblem in the Header */
-    .emblem-wrapper {
-      margin-bottom: 2rem;
-      display: inline-block;
-    }
-
-    .emblem {
-      width: 80px;
-      height: 80px;
-      display: block;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-      cursor: default;
-    }
-
-    .emblem:hover {
-      transform: rotate(20deg) scale(1.04);
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .emblem:hover {
-        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6);
-      }
-    }
-
-    /* Typography */
-    header {
-      margin-bottom: 2.2rem;
-    }
-
     h1 {
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 650;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin: 0 0 0.5rem 0;
-      color: var(--text);
-    }
-
-    .subtitle {
-      color: var(--subtext);
-      font-size: 1.05rem;
       margin: 0;
-      letter-spacing: -0.01em;
-      font-weight: 400;
+      font-weight: 300;
+      font-size: clamp(3rem, 11vw, 8.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.035em;
+      text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
     }
-
-    .statement {
-      margin-top: 0;
-      margin-bottom: 2.5rem;
+    .line {
+      margin: 1.1rem 0 0;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--dim);
+      font-style: italic;
     }
-
-    .statement p {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      color: var(--text);
-      margin: 0;
+    .reach {
+      margin: 2.2rem 0 0;
+      display: flex; flex-wrap: wrap; gap: 0.5rem 2rem;
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
     }
-
-    /* Contact Section */
-    .contact-section {
-      margin-top: 1rem;
-    }
-
-    .contact-label {
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--subtext);
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      display: block;
-    }
-
-    .contact-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.65rem 1rem;
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
+    .reach a {
+      color: var(--light);
       text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
+      border-bottom: 1px solid rgba(244, 245, 240, 0.45);
+      padding-bottom: 2px;
+      transition: border-color 0.2s ease;
     }
+    .reach a:hover { border-bottom-color: var(--light); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--light); outline-offset: 4px; border-radius: 2px; }
 
-    .contact-pill:hover {
-      border-color: var(--accent);
-      background: var(--pill-hover);
-      color: var(--accent);
-      text-decoration: none;
-      transform: translateY(-1px);
+    /* The emblem, top right. Click it. */
+    .mark {
+      position: fixed; z-index: 2;
+      top: clamp(1.25rem, 3vw, 2rem); right: clamp(1.25rem, 3vw, 2rem);
+      width: 44px; height: 44px; padding: 0;
+      border: 0; border-radius: 50%;
+      background: none; cursor: pointer;
+      opacity: 0.8; transition: opacity 0.3s ease, transform 0.8s cubic-bezier(.2,.7,.2,1);
     }
-
-    .contact-pill svg {
-      width: 17px;
-      height: 17px;
-      opacity: 0.7;
-      transition: opacity 0.2s ease;
-      flex-shrink: 0;
+    .mark img { width: 100%; height: 100%; border-radius: 50%; display: block; }
+    .mark:hover { opacity: 1; }
+    .mark.turned { transform: rotate(180deg); }
+    .whisper {
+      position: fixed; z-index: 2;
+      top: calc(clamp(1.25rem, 3vw, 2rem) + 56px); right: clamp(1.25rem, 3vw, 2rem);
+      margin: 0; max-width: 16rem; text-align: right;
+      font-style: italic; font-size: 1.15rem; line-height: 1.35;
+      color: var(--light);
+      opacity: 0; transform: translateY(-4px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      pointer-events: none;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
     }
+    .whisper small { display: block; font-size: 0.85rem; opacity: 0.75; margin-top: 0.3rem; }
+    .whisper.show { opacity: 1; transform: none; }
 
-    .contact-pill:hover svg {
-      opacity: 1;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      color: var(--subtext);
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    footer a {
-      color: var(--subtext);
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
-
-    footer a:hover {
-      color: var(--accent);
-    }
-
-    /* Mobile fine-tuning */
-    @media (max-width: 600px) {
-      .container {
-        padding-top: 3.5rem;
-      }
-      
-      .emblem {
-        width: 72px;
-        height: 72px;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .scenery div { transition: none; }
+      .mark, .whisper { transition: none; }
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <div class="main-content">
-      
-      <!-- Focal Anchor: Geometric Emblem -->
-      <div class="emblem-wrapper">
-        <img src="brandlogo.png" alt="Geometric Emblem" class="emblem" width="80" height="80">
-      </div>
+  <div class="scenery" aria-hidden="true"></div>
 
-      <header>
-        <h1>Scott Hal Stephens</h1>
-        <p class="subtitle">Mathematics Student at Imperial College London</p>
-      </header>
+  <button class="mark" type="button" aria-label="A small thought" aria-controls="whisper" aria-expanded="false">
+    <img src="brandlogo.png" alt="">
+  </button>
+  <p class="whisper" id="whisper" role="status">This is it.<small>after Alan Watts</small></p>
 
-      <div class="statement">
-        <p>I am interested in the philosophy of life.</p>
-      </div>
+  <main>
+    <h1>Scott Hal<br>Stephens</h1>
+    <p class="line">Mathematics, Imperial College London</p>
+    <p class="reach">
+      <a href="mailto:scott@shstephens.com">scott@shstephens.com</a>
+    </p>
+  </main>
 
-      <div class="contact-section">
-        <span class="contact-label">Get in touch</span>
-        <a href="mailto:scott@shstephens.com" class="contact-pill" id="contact-email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-          </svg>
-          <span>scott@shstephens.com</span>
-        </a>
-      </div>
+  <script>
+    (function () {
+      // Landscape photos for landscape screens, portrait photos for portrait screens.
+      // One photo per visit; if the screen is rotated, switch to one that fits.
+      var sets = {
+        landscape: ["hills", "pines", "bracken", "clouds"],
+        portrait: ["london-plane-trees", "forest-track", "dog-walk"]
+      };
+      var size = (Math.max(screen.width, screen.height) * (window.devicePixelRatio || 1) > 1800) ? "lg" : "sm";
+      var stage = document.querySelector(".scenery");
+      var layer = document.createElement("div");
+      stage.appendChild(layer);
+      var portraitQuery = window.matchMedia("(orientation: portrait)");
+      var chosen = {};
+      function show() {
+        var shape = portraitQuery.matches ? "portrait" : "landscape";
+        if (!chosen[shape]) {
+          var list = sets[shape];
+          chosen[shape] = list[Math.floor(Math.random() * list.length)];
+        }
+        var src = "images/" + chosen[shape] + "-" + size + ".jpg";
+        var img = new Image();
+        img.onload = function () {
+          layer.classList.remove("on");
+          layer.style.backgroundImage = "url(" + src + ")";
+          requestAnimationFrame(function () { layer.classList.add("on"); });
+        };
+        img.src = src;
+      }
+      show();
+      if (portraitQuery.addEventListener) portraitQuery.addEventListener("change", show);
+      else portraitQuery.addListener(show);
 
-    </div>
-
-    <footer>
-      <span>&copy; 2026 Scott Hal Stephens</span>
-    </footer>
-  </div>
-
+      var mark = document.querySelector(".mark"), whisper = document.getElementById("whisper");
+      mark.addEventListener("click", function () {
+        var open = whisper.classList.toggle("show");
+        mark.classList.toggle("turned", open);
+        mark.setAttribute("aria-expanded", open);
+      });
+    })();
+  </script>
 </body>
-
 </html>
