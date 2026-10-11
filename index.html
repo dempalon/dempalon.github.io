@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" href="brandlogo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --night: #1b211d;
@@ -23,8 +23,7 @@
       min-height: 100svh;
       background: var(--night);
       color: var(--light);
-      font-family: "Newsreader", Georgia, "Times New Roman", serif;
-      font-optical-sizing: auto;
+      font-family: "Tinos", "Times New Roman", Times, serif;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
     }
@@ -43,34 +42,59 @@
       content: ""; position: absolute; inset: 0;
       background:
         linear-gradient(to top, rgba(17, 22, 19, 0.78) 0%, rgba(17, 22, 19, 0.25) 42%, rgba(17, 22, 19, 0.05) 70%),
-        linear-gradient(to right, rgba(17, 22, 19, 0.35), rgba(17, 22, 19, 0) 60%),
-        radial-gradient(circle at 100% 0%, rgba(17, 22, 19, 0.55), rgba(17, 22, 19, 0) 22rem);
+        linear-gradient(to right, rgba(17, 22, 19, 0.35), rgba(17, 22, 19, 0) 60%);
     }
 
     main {
       position: relative; z-index: 1;
       min-height: 100svh;
-      display: flex; flex-direction: column; justify-content: flex-end;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem 3rem;
       padding: clamp(1.5rem, 5vw, 4.5rem);
     }
     h1 {
       margin: 0;
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(3rem, 11vw, 8.5rem);
-      line-height: 0.92;
-      letter-spacing: -0.035em;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
       text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
     }
-    .line {
-      margin: 1.1rem 0 0;
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      color: var(--dim);
-      font-style: italic;
+    /* The emblem stands in for the o in Scott */
+    .o {
+      display: inline-block;
+      width: 0.48em; height: 0.48em;
+      margin: 0 0.015em 0 0.02em;
+      vertical-align: -0.015em;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 0 0.012em rgba(244, 245, 240, 0.55);
+      transition: transform 1.8s cubic-bezier(.16, 1, .3, 1);
     }
+    .o.turned { transform: rotate(360deg); }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    .side { text-align: right; padding-bottom: 0.6rem; }
+    .lines { position: relative; margin: 0; }
+    .lines span {
+      display: block;
+      font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+      font-style: italic;
+      color: var(--dim);
+      transition: opacity 1s ease;
+    }
+    .lines .thought {
+      position: absolute; right: 0; bottom: 0;
+      opacity: 0; color: var(--light); white-space: nowrap;
+    }
+    .lines .thought small { font-size: 0.75em; opacity: 0.75; margin-left: 0.4em; }
+    .lines.thinking .usual { opacity: 0; }
+    .lines.thinking .thought { opacity: 1; }
     .reach {
-      margin: 2.2rem 0 0;
-      display: flex; flex-wrap: wrap; gap: 0.5rem 2rem;
-      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      margin: 0.8rem 0 0;
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     }
     .reach a {
       color: var(--light);
@@ -80,37 +104,17 @@
       transition: border-color 0.2s ease;
     }
     .reach a:hover { border-bottom-color: var(--light); }
-    a:focus-visible, button:focus-visible { outline: 2px solid var(--light); outline-offset: 4px; border-radius: 2px; }
+    a:focus-visible { outline: 2px solid var(--light); outline-offset: 4px; border-radius: 2px; }
 
-    /* The emblem, top right. Click it. */
-    .mark {
-      position: fixed; z-index: 2;
-      top: clamp(1.25rem, 3vw, 2rem); right: clamp(1.25rem, 3vw, 2rem);
-      width: 44px; height: 44px; padding: 0;
-      border: 0; border-radius: 50%;
-      background: none; cursor: pointer;
-      opacity: 0.8; transition: opacity 0.3s ease, transform 0.8s cubic-bezier(.2,.7,.2,1);
+    @media (max-width: 760px) {
+      main { grid-template-columns: 1fr; gap: 1.25rem; align-content: end; }
+      .side { text-align: left; padding-bottom: 0; }
+      .lines .thought { right: auto; left: 0; }
     }
-    .mark img { width: 100%; height: 100%; border-radius: 50%; display: block; }
-    .mark:hover { opacity: 1; }
-    .mark.turned { transform: rotate(180deg); }
-    .whisper {
-      position: fixed; z-index: 2;
-      top: calc(clamp(1.25rem, 3vw, 2rem) + 56px); right: clamp(1.25rem, 3vw, 2rem);
-      margin: 0; max-width: 16rem; text-align: right;
-      font-style: italic; font-size: 1.15rem; line-height: 1.35;
-      color: var(--light);
-      opacity: 0; transform: translateY(-4px);
-      transition: opacity 1.2s ease, transform 1.2s ease;
-      pointer-events: none;
-      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
-    }
-    .whisper small { display: block; font-size: 0.85rem; opacity: 0.75; margin-top: 0.3rem; }
-    .whisper.show { opacity: 1; transform: none; }
 
     @media (prefers-reduced-motion: reduce) {
       .scenery div { transition: none; }
-      .mark, .whisper { transition: none; }
+      .o, .lines span { transition: none; }
     }
   </style>
 </head>
@@ -118,17 +122,15 @@
 
   <div class="scenery" aria-hidden="true"></div>
 
-  <button class="mark" type="button" aria-label="A small thought" aria-controls="whisper" aria-expanded="false">
-    <img src="brandlogo.png" alt="">
-  </button>
-  <p class="whisper" id="whisper" role="status">This is it.<small>after Alan Watts</small></p>
-
   <main>
-    <h1>Scott Hal<br>Stephens</h1>
-    <p class="line">Mathematics, Imperial College London</p>
-    <p class="reach">
-      <a href="mailto:scott@shstephens.com">scott@shstephens.com</a>
-    </p>
+    <h1><span class="sr">Scott Hal Stephens</span><span aria-hidden="true">Sc<img class="o" src="brandlogo.png" alt="" title="">tt Hal<br>Stephens</span></h1>
+    <div class="side">
+      <p class="lines" aria-live="polite">
+        <span class="usual">Mathematics, Imperial College London</span>
+        <span class="thought">This is it.<small>after Alan Watts</small></span>
+      </p>
+      <p class="reach"><a href="mailto:scott@shstephens.com">scott@shstephens.com</a></p>
+    </div>
   </main>
 
   <script>
@@ -164,11 +166,11 @@
       if (portraitQuery.addEventListener) portraitQuery.addEventListener("change", show);
       else portraitQuery.addListener(show);
 
-      var mark = document.querySelector(".mark"), whisper = document.getElementById("whisper");
-      mark.addEventListener("click", function () {
-        var open = whisper.classList.toggle("show");
-        mark.classList.toggle("turned", open);
-        mark.setAttribute("aria-expanded", open);
+      var o = document.querySelector(".o"), lines = document.querySelector(".lines");
+      o.addEventListener("click", function () {
+        var on = !lines.classList.contains("thinking");
+        lines.classList.toggle("thinking", on);
+        o.classList.toggle("turned", on);
       });
     })();
   </script>
